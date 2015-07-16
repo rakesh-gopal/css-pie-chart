@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
@@ -29,34 +30,46 @@
 </head>
 
 <body>
-    <div class="circle" data-percent="60">
-        <div class="inner">
-        </div>
-    </div>
+
+    <div id="pie-container" data-percent="60"></div>
 
     <script type="text/javascript" charset="utf-8" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript">
-        var per = $(".circle").data("percent");
 
-        $(".inner").html(per + "%");
+        $(document).ready(function() {
+            var container = $("#pie-container");
+            var percent = container.data("percent");
+            drawPieChart(container, percent);
+        });
 
-        if (per < 50) {
-            var start_rot = 3.6 * per + 90;
-            $(".circle").css({
-                "background-image": "linear-gradient(" + start_rot + "deg, transparent 50%, #ccc 50%),linear-gradient(90deg, #ccc 50%, transparent 50%)"
-            });
+        var drawPieChart = (function() {
+            var tpl = '<div class="circle"><div class="inner"></div></div>';
 
-        } else if (per == 50) {
-            $('.circle').css({
-                "background-image": "linear-gradient(90deg, #ccc 50%, transparent 50%)"
-            });
+            return function(container, percent) {
+                var per = percent;
+                container.html(tpl);
 
-        } else {
-            var start_rot = 3.6 * per - 90;
-            $('.circle').css({
-                "background-image": "linear-gradient(" + start_rot + "deg, transparent 50%, #1199ff 50%),linear-gradient(90deg, #ccc 50%, transparent 50%)"
-            });
-        }
+                if (per < 50) {
+                    var start_rot = 3.6 * per + 90;
+                    container.find(".circle").css({
+                        "background-image": "linear-gradient(" + start_rot + "deg, transparent 50%, #ccc 50%),linear-gradient(90deg, #ccc 50%, transparent 50%)"
+                    });
+
+                } else if (per == 50) {
+                    container.find('.circle').css({
+                        "background-image": "linear-gradient(90deg, #ccc 50%, transparent 50%)"
+                    });
+
+                } else {
+                    var start_rot = 3.6 * per - 90;
+                    container.find('.circle').css({
+                        "background-image": "linear-gradient(" + start_rot + "deg, transparent 50%, #1199ff 50%),linear-gradient(90deg, #ccc 50%, transparent 50%)"
+                    });
+                }
+                container.find(".inner").html(per + "%");
+            };
+        })();
+
     </script>
 </body>
 
